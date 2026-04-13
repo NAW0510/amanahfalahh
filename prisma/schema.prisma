@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  PKM
+  DONATUR
+}
+
+model User {
+  id          String        @id @default(cuid())
+  name        String
+  email       String        @unique
+  password    String
+  role        Role          @default(DONATUR)
+  createdAt   DateTime      @default(now())
+  donasi      Donasi[]
+  pengeluaran Pengeluaran[]
+}
+
+model Donasi {
+  id         String    @id @default(cuid())
+  nominal    Float
+  tanggal    DateTime
+  sumber     String
+  keterangan String?
+  userId     String
+  createdAt  DateTime  @default(now())
+  uploadedBy User      @relation(fields: [userId], references: [id])
+  dokumen    Dokumen[]
+}
+
+model Dokumen {
+  id         String   @id @default(cuid())
+  namaFile   String
+  urlFile    String
+  tipe       String
+  ukuran     Int
+  donasiId   String
+  uploadedAt DateTime @default(now())
+  donasi     Donasi   @relation(fields: [donasiId], references: [id], onDelete: Cascade)
+}
+
+model Pengeluaran {
+  id         String   @id @default(cuid())
+  nominal    Float
+  tanggal    DateTime
+  keterangan String?
+  kategori   String
+  userId     String
+  createdAt  DateTime @default(now())
+  createdBy  User     @relation(fields: [userId], references: [id])
+}
