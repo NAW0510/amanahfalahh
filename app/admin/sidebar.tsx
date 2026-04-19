@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { signOut } from "next-auth/react"
 import {
   LayoutDashboard, ArrowLeftRight,
-  FileText, Settings, LogOut,
+  FileText, Settings, LogOut, X,
 } from "lucide-react"
 
 const navItems = [
@@ -18,19 +18,38 @@ const navItems = [
 interface Props {
   userName?: string | null
   userEmail?: string | null
+  isOpen?: boolean
+  onClose?: () => void
 }
 
-export default function AdminSidebar({ userName, userEmail }: Props) {
+export default function AdminSidebar({ userName, userEmail, isOpen = false, onClose }: Props) {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-[220px] bg-[#037EBD] flex flex-col z-40">
+    <aside
+      className={`
+        fixed top-0 left-0 h-screen w-[220px] bg-[#037EBD] flex flex-col z-40
+        transition-transform duration-300 ease-in-out
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        md:translate-x-0
+      `}
+    >
       {/* Logo */}
-      <div className="px-5 py-6 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-          <span className="text-white text-xs font-bold">AF</span>
+      <div className="px-5 py-5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+            <span className="text-white text-xs font-bold">AF</span>
+          </div>
+          <span className="text-white font-bold text-sm tracking-wide">AMANAH FALAH</span>
         </div>
-        <span className="text-white font-bold text-sm tracking-wide">AMANAH FALAH</span>
+        {/* Close button — mobile only */}
+        <button
+          onClick={onClose}
+          className="md:hidden text-white/70 hover:text-white transition-colors"
+          aria-label="Close menu"
+        >
+          <X size={18} />
+        </button>
       </div>
 
       {/* Nav */}
@@ -45,6 +64,7 @@ export default function AdminSidebar({ userName, userEmail }: Props) {
               <Link
                 key={href}
                 href={href}
+                onClick={onClose}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                   isActive
                     ? "bg-white text-[#037EBD]"
