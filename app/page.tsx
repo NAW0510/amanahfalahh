@@ -1,7 +1,17 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
+import RotatingText from "@/components/rotating-text"
+import FadeIn from "@/components/fade-in"
+import AutoGallery from "@/components/auto-gallery"
+import Navbar from "@/components/navbar"
+import FaqAccordion from "@/components/faq-accordion"
+import BackToTop from "@/components/back-to-top"
+import Preloader from "@/components/preloader"
+import ScrollProgress from "@/components/scroll-progress"
+import ScrollIndicator from "@/components/scroll-indicator"
+import StatsCounter from "@/components/stats-counter"
+import TestimonialCarousel from "@/components/testimonial-carousel"
 
 export default async function Home() {
   const session = await auth()
@@ -18,63 +28,69 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex flex-col bg-white font-sans">
+    <div className="flex flex-col bg-white dark:bg-gray-950 font-sans transition-colors duration-300">
 
-      {/* Navbar */}
-      <header className="w-full border-b border-gray-100 px-10 py-4 flex items-center justify-between fixed top-0 left-0 right-0 bg-white z-50 shadow-sm">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-full bg-[#037EBD] flex items-center justify-center">
-            <span className="text-white text-xs font-bold">AF</span>
-          </div>
-          <span className="text-[#037EBD] font-bold text-lg">AmanahFalah</span>
-        </div>
-        <nav className="hidden md:flex items-center gap-8 text-sm text-gray-600 font-medium">
-          <Link href="#beranda" className="text-[#037EBD] border-b-2 border-[#037EBD] pb-0.5">Beranda</Link>
-          <Link href="#tentang" className="hover:text-[#037EBD] transition-colors">Tentang Kami</Link>
-          <Link href="#visi" className="hover:text-[#037EBD] transition-colors">Visi & Misi</Link>
-          <Link href="#tim" className="hover:text-[#037EBD] transition-colors">Tim</Link>
-          <Link href="#faq" className="hover:text-[#037EBD] transition-colors">FAQ</Link>
-        </nav>
-        <Link href="/login" className="bg-[#037EBD] hover:bg-[#025f8f] text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors">
-          Login
-        </Link>
-      </header>
+      <Preloader />
+      <ScrollProgress />
+      <Navbar />
+      <BackToTop />
 
-      {/* Hero Section */}
-      <section id="beranda" className="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 bg-white">
-        <div className="w-24 h-24 rounded-full border-4 border-[#037EBD] flex items-center justify-center mb-8 shadow-lg overflow-hidden">
-          <div className="w-full h-full bg-gradient-to-br from-[#037EBD] to-[#025f8f] flex items-center justify-center">
-            <span className="text-white text-2xl font-bold">AF</span>
+      {/* ── Hero ──────────────────────────────────────────────────── */}
+      <section id="beranda" className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 bg-white dark:bg-gray-950">
+        <FadeIn>
+          <div className="w-24 h-24 rounded-full border-4 border-[#037EBD] flex items-center justify-center mb-8 shadow-lg overflow-hidden mx-auto">
+            <div className="w-full h-full bg-gradient-to-br from-[#037EBD] to-[#025f8f] flex items-center justify-center">
+              <span className="text-white text-2xl font-bold">AF</span>
+            </div>
           </div>
-        </div>
-        <h1 className="text-4xl md:text-6xl font-bold text-[#0A3D5C] leading-tight mb-5 max-w-1xl">
-          Amanah Terjaga, Transparansi Nyata
-        </h1>
-        <p className="text-lg md:text-xl font-semibold text-[#037EBD] mb-4">
-          Laporan Falah Berbasis Syariah
-        </p>
-        <p className="text-gray-400 text-sm max-w-2xl mb-10 leading-relaxed">
-          AmanahFalah adalah aplikasi digital untuk membantu panti asuhan dalam mencatat, mengelola,
-          dan melaporkan keuangan sesuai prinsip syariah.
-        </p>
-        <Link href="/login" className="bg-[#037EBD] hover:bg-[#025f8f] text-white font-semibold px-10 py-3.5 rounded-lg transition-colors text-sm">
-          Lihat Pedoman Digital
-        </Link>
+        </FadeIn>
+        <FadeIn delay={200}>
+          <h1 className="text-4xl md:text-6xl font-bold text-[#0A3D5C] dark:text-white leading-tight mb-5 max-w-3xl">
+            Amanah Terjaga, Transparansi Nyata
+          </h1>
+        </FadeIn>
+        <FadeIn delay={400}>
+          <RotatingText
+            texts={[
+              "Laporan Falah Berbasis Syariah",
+              "Transparansi Keuangan Panti Asuhan",
+              "Amanah Digital untuk Umat",
+              "Akuntabel, Transparan, Terpercaya",
+            ]}
+            className="text-lg md:text-xl font-semibold text-[#037EBD] mb-4 h-8"
+          />
+        </FadeIn>
+        <FadeIn delay={600}>
+          <p className="text-gray-400 dark:text-gray-500 text-sm max-w-2xl mb-10 leading-relaxed">
+            AmanahFalah adalah aplikasi digital untuk membantu panti asuhan dalam mencatat, mengelola,
+            dan melaporkan keuangan sesuai prinsip syariah.
+          </p>
+        </FadeIn>
+        <FadeIn delay={800}>
+          <Link
+            href="/login"
+            className="bg-[#037EBD] hover:bg-[#025f8f] text-white font-semibold px-10 py-3.5 rounded-lg transition-all text-sm hover:scale-105 active:scale-95"
+          >
+            Lihat Pedoman Digital
+          </Link>
+        </FadeIn>
+
+        <ScrollIndicator />
       </section>
 
-      {/* Tantangan Section */}
-      <section className="min-h-screen bg-[#0A3D5C] flex items-center px-10 py-20">
+      {/* ── Tantangan ─────────────────────────────────────────────── */}
+      <section className="min-h-screen bg-[#0A3D5C] dark:bg-[#061f2e] flex items-center px-10 py-20">
         <div className="max-w-5xl mx-auto w-full flex flex-col md:flex-row items-center gap-16">
-          <div className="flex-1">
-            <div className="bg-[#0d4d72] rounded-2xl p-10 h-72 flex items-center justify-center">
+          <FadeIn direction="left" className="flex-1">
+            <div className="bg-[#0d4d72] dark:bg-[#082840] rounded-2xl p-10 h-72 flex items-center justify-center">
               <div className="grid grid-cols-3 gap-4 w-full opacity-70">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-[#037EBD] rounded-lg h-10"></div>
+                  <div key={i} className="bg-[#037EBD] rounded-lg h-10" />
                 ))}
               </div>
             </div>
-          </div>
-          <div className="flex-1 text-white">
+          </FadeIn>
+          <FadeIn direction="right" className="flex-1 text-white">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-snug">
               Tantangan Pelaporan Keuangan di Sektor Sosial
             </h2>
@@ -83,74 +99,108 @@ export default async function Home() {
               pelaporan. Standar yang ada seperti ISAK 35 dinilai kompleks, kurang adaptif
               untuk organisasi kecil, dan belum sepenuhnya berbasis prinsip syariah.
             </p>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* Solusi Section */}
-      <section id="tentang" className="min-h-screen flex items-center px-10 py-20 bg-white">
+      {/* ── Solusi ────────────────────────────────────────────────── */}
+      <section id="tentang" className="min-h-screen flex items-center px-10 py-20 bg-white dark:bg-gray-950">
         <div className="max-w-5xl mx-auto w-full flex flex-col md:flex-row items-center gap-16">
-          <img
-            src="/img/TotalPenerimaan.svg"
-            alt="Total Penerimaan"
-            className="w-full max-w-xl"
-
-          />
-          <div className="flex-1 order-2 md:order-1">
+          <FadeIn direction="left" className="flex-1">
+            <img
+              src="/img/TotalPenerimaan.svg"
+              alt="Total Penerimaan"
+              className="w-full max-w-xl dark:opacity-90"
+            />
+          </FadeIn>
+          <FadeIn direction="right" className="flex-1 order-2 md:order-1">
             <p className="text-[#037EBD] text-sm font-semibold mb-2 uppercase tracking-wide">Solusi Kami:</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0A3D5C] mb-6 leading-snug">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0A3D5C] dark:text-white mb-6 leading-snug">
               Laporan Falah<br />Berbasis Syariah
             </h2>
-            <p className="text-gray-500 text-base leading-relaxed mb-6">
+            <p className="text-gray-500 dark:text-gray-400 text-base leading-relaxed mb-6">
               AmanahFalah hadir melalui konsep Semesta Sophiana dan Sharia Transaction Theory.
               Kami menawarkan pertanggungjawaban ganda — transparan kepada donatur dan
               masyarakat, serta vertikal kepada Allah SWT.
             </p>
-            <Link href="/login" className="inline-block bg-[#037EBD] hover:bg-[#025f8f] text-white text-sm font-semibold px-7 py-3 rounded-lg transition-colors">
+            <Link
+              href="/login"
+              className="inline-block bg-[#037EBD] hover:bg-[#025f8f] text-white text-sm font-semibold px-7 py-3 rounded-lg transition-all hover:scale-105 active:scale-95"
+            >
               Mulai Sekarang
             </Link>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* Fitur Unggulan */}
-      <section className="min-h-screen bg-[#0A3D5C] flex items-center px-10 py-20">
+      {/* ── Fitur Unggulan ────────────────────────────────────────── */}
+      <section className="min-h-screen bg-[#0A3D5C] dark:bg-[#061f2e] flex items-center px-10 py-20">
         <div className="max-w-5xl mx-auto w-full text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Mewujudkan Amanah Melalui Fitur Unggulan
-          </h2>
-          <p className="text-blue-200 text-sm mb-14">
-            Dirancang khusus untuk kebutuhan panti asuhan yang transparan dan akuntabel
-          </p>
+          <FadeIn>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Mewujudkan Amanah Melalui Fitur Unggulan
+            </h2>
+            <p className="text-blue-200 text-sm mb-14">
+              Dirancang khusus untuk kebutuhan panti asuhan yang transparan dan akuntabel
+            </p>
+          </FadeIn>
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { icon: "📋", judul: "Pencatatan Praktis", deskripsi: "Sistem pencatatan laporan keuangan syariah yang sederhana dan praktis." },
               { icon: "⚖️", judul: "Transparansi & Akuntabilitas", deskripsi: "Membantu panti asuhan menjaga transparansi dan akuntabilitas." },
               { icon: "🤝", judul: "Kepercayaan Donatur", deskripsi: "Tingkatkan kepercayaan publik dan donatur melalui laporan yang terbuka." },
             ].map((f, i) => (
-              <div key={i} className="bg-white rounded-2xl p-8 text-center shadow-sm">
-                <div className="w-14 h-14 bg-[#0A3D5C] rounded-full flex items-center justify-center mx-auto mb-5">
-                  <span className="text-2xl">{f.icon}</span>
+              <FadeIn key={i} delay={i * 200}>
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
+                  <div className="w-14 h-14 bg-[#0A3D5C] dark:bg-[#037EBD]/20 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <span className="text-2xl">{f.icon}</span>
+                  </div>
+                  <h3 className="text-[#037EBD] font-bold text-base mb-3">{f.judul}</h3>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{f.deskripsi}</p>
                 </div>
-                <h3 className="text-[#037EBD] font-bold text-base mb-3">{f.judul}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{f.deskripsi}</p>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Visi & Misi */}
-      <section id="visi" className="min-h-screen flex items-center px-10 py-20 bg-white">
-        <div className="max-w-5xl mx-auto w-full">
-          <div className="text-center mb-14">
-            <h3 className="text-center text-2xl font-bold text-gray-800 mb-8">Visi</h3>
-            <p className="text-lg md:text-xl font-semibold text-gray-700 max-w-2xl mx-auto leading-relaxed -mt-2">
-              Menjadi platform digital yang mendorong pengelolaan keuangan syariah yang
-              transparan, amanah, dan inklusif bagi seluruh panti asuhan di Indonesia.
+      {/* ── Stats Counter ─────────────────────────────────────────── */}
+      <section className="bg-gradient-to-r from-[#037EBD] to-[#025f8f] py-20 px-10">
+        <div className="max-w-5xl mx-auto">
+          <FadeIn>
+            <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-2">
+              Dampak Nyata AmanahFalah
+            </h2>
+            <p className="text-blue-100 text-sm text-center mb-12">
+              Angka yang berbicara tentang kepercayaan dan transparansi
             </p>
-          </div>
-          <h3 className="text-center text-2xl font-bold text-gray-800 mb-8">Misi</h3>
+          </FadeIn>
+          <StatsCounter
+            stats={[
+              { value: 150, suffix: "+", label: "Donatur Aktif" },
+              { value: 3,   suffix: "",   label: "Panti Asuhan" },
+              { value: 500, suffix: "Jt", label: "Dana Tersalurkan" },
+              { value: 100, suffix: "%",  label: "Transparansi" },
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* ── Visi & Misi ───────────────────────────────────────────── */}
+      <section id="visi" className="min-h-screen flex items-center px-10 py-20 bg-white dark:bg-gray-950">
+        <div className="max-w-5xl mx-auto w-full">
+          <FadeIn>
+            <div className="text-center mb-14">
+              <h3 className="text-center text-2xl font-bold text-gray-800 dark:text-white mb-8">Visi</h3>
+              <p className="text-lg md:text-xl font-semibold text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed -mt-2">
+                Menjadi platform digital yang mendorong pengelolaan keuangan syariah yang
+                transparan, amanah, dan inklusif bagi seluruh panti asuhan di Indonesia.
+              </p>
+            </div>
+          </FadeIn>
+          <FadeIn>
+            <h3 className="text-center text-2xl font-bold text-gray-800 dark:text-white mb-8">Misi</h3>
+          </FadeIn>
           <div className="grid md:grid-cols-4 gap-5">
             {[
               "Memberikan pedoman digital untuk laporan keuangan panti asuhan",
@@ -158,69 +208,108 @@ export default async function Home() {
               "Menyediakan sistem yang ramah pengguna dan bisa diakses secara luas",
               "Mendukung gerakan literasi dan inklusi keuangan syariah di sektor sosial",
             ].map((m, i) => (
-              <div key={i} className="bg-[#f0f9ff] border border-[#bae6fd] rounded-xl p-5 text-center">
-                <p className="text-gray-600 text-xs leading-relaxed">{m}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Galeri Tim */}
-      <section id="tim" className="min-h-screen bg-gray-50 flex items-center px-10 py-20">
-        <div className="max-w-5xl mx-auto w-full">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-2">Galeri Kegiatan Tim</h2>
-          <p className="text-gray-400 text-sm text-center mb-12">
-            Dokumentasi perjalanan tim kami dalam mengembangkan AmanahFalah dan berinovasi bersama Panti Asuhan.
-          </p>
-          <div className="grid grid-cols-3 gap-5">
-            {[
-              { label: "Mansyur Kota", highlight: false },
-              { label: "Panti Asuhan KH. Mas Mansyur Kota Malang", highlight: true },
-              { label: "LKSA Taqwa Al-Hikmah", highlight: false },
-            ].map((item, i) => (
-              <div key={i} className={`rounded-2xl overflow-hidden shadow-sm ${item.highlight ? "ring-2 ring-[#037EBD] shadow-lg scale-105" : ""} transition-transform`}>
-                <div className="bg-[#0A3D5C] h-56 flex items-end p-4">
-                  <span className="text-white text-sm font-medium">{item.label}</span>
+              <FadeIn key={i} delay={i * 150}>
+                <div className="bg-[#f0f9ff] dark:bg-[#037EBD]/10 border border-[#bae6fd] dark:border-[#037EBD]/30 rounded-xl p-5 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                  <p className="text-gray-600 dark:text-gray-300 text-xs leading-relaxed">{m}</p>
                 </div>
-              </div>
+              </FadeIn>
             ))}
-          </div>
-          <div className="flex justify-center gap-2 mt-8">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className={`rounded-full transition-all ${i === 1 ? "w-5 h-2 bg-[#037EBD]" : "w-2 h-2 bg-gray-300"}`}></div>
-            ))}
-          </div>
-          <div className="flex justify-center gap-3 mt-5">
-            <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-[#037EBD] hover:text-[#037EBD] transition-colors text-lg">‹</button>
-            <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:border-[#037EBD] hover:text-[#037EBD] transition-colors text-lg">›</button>
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="min-h-screen flex items-center px-10 py-20 bg-white">
+      {/* ── Galeri Tim ────────────────────────────────────────────── */}
+      <section id="tim" className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center px-10 py-20">
+        <div className="max-w-5xl mx-auto w-full">
+          <FadeIn>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white text-center mb-2">
+              Galeri Kegiatan Tim
+            </h2>
+            <p className="text-gray-400 dark:text-gray-500 text-sm text-center mb-12">
+              Dokumentasi perjalanan tim kami dalam mengembangkan AmanahFalah dan berinovasi bersama Panti Asuhan.
+            </p>
+          </FadeIn>
+          <FadeIn>
+            <AutoGallery
+              items={[
+                { label: "Mansyur Kota" },
+                { label: "Panti Asuhan KH. Mas Mansyur Kota Malang" },
+                { label: "LKSA Taqwa Al-Hikmah" },
+              ]}
+              interval={4000}
+            />
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── Testimoni ─────────────────────────────────────────────── */}
+      <section className="bg-white dark:bg-gray-950 py-20 px-10">
+        <div className="max-w-3xl mx-auto w-full">
+          <FadeIn>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white text-center mb-2">
+              Apa Kata Mereka
+            </h2>
+            <p className="text-gray-400 dark:text-gray-500 text-sm text-center mb-12">
+              Pengalaman nyata dari pengguna AmanahFalah
+            </p>
+          </FadeIn>
+          <TestimonialCarousel
+            items={[
+              {
+                name: "Bapak Ahmad Fauzi",
+                role: "Pengurus Panti Asuhan",
+                text: "AmanahFalah sangat membantu kami dalam mengelola laporan keuangan yang transparan dan sesuai syariah. Kini kami lebih mudah mempertanggungjawabkan setiap donasi yang masuk.",
+              },
+              {
+                name: "Ibu Siti Rahayu",
+                role: "Donatur Tetap",
+                text: "Saya merasa tenang karena bisa memantau penggunaan donasi secara langsung melalui platform ini. Transparansinya benar-benar membuat saya semakin percaya.",
+              },
+              {
+                name: "Rizky Pratama",
+                role: "Relawan PKM",
+                text: "Sistem yang user-friendly dan sangat memudahkan proses pencatatan keuangan panti asuhan. Fitur-fiturnya lengkap dan mudah dipahami.",
+              },
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* ── FAQ ───────────────────────────────────────────────────── */}
+      <section id="faq" className="min-h-screen flex items-center px-10 py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-2xl mx-auto w-full">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-12">FAQ</h2>
-          <div className="space-y-3">
-            {[
-              "Apa itu AmanahFalah?",
-              "Apakah laporan keuangan yang dihasilkan sesuai syariah?",
-              "Bagaimana cara donatur melihat laporan?",
-              "Apakah menggunakan AmanahFalah membutuhkan biaya?",
-              "Apakah laporan bisa dicetak?",
-            ].map((q, i) => (
-              <div key={i} className="border border-gray-200 rounded-xl px-6 py-4 flex items-center justify-between cursor-pointer hover:border-[#037EBD] hover:shadow-sm transition-all group">
-                <p className="text-gray-700 text-sm font-medium group-hover:text-[#037EBD] transition-colors">{q}</p>
-                <span className="text-gray-400 text-xl ml-4 group-hover:text-[#037EBD] transition-colors">›</span>
-              </div>
-            ))}
-          </div>
+          <FadeIn>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white text-center mb-12">FAQ</h2>
+          </FadeIn>
+          <FaqAccordion
+            items={[
+              {
+                question: "Apa itu AmanahFalah?",
+                answer: "AmanahFalah adalah aplikasi digital yang membantu panti asuhan dalam mencatat, mengelola, dan melaporkan keuangan secara transparan sesuai prinsip syariah.",
+              },
+              {
+                question: "Apakah laporan keuangan yang dihasilkan sesuai syariah?",
+                answer: "Ya, AmanahFalah dirancang berdasarkan konsep Semesta Sophiana dan Sharia Transaction Theory untuk menghasilkan laporan yang sesuai prinsip syariah.",
+              },
+              {
+                question: "Bagaimana cara donatur melihat laporan?",
+                answer: "Donatur dapat login ke sistem menggunakan akun yang diberikan oleh admin panti asuhan, lalu mengakses halaman transparansi untuk melihat laporan keuangan.",
+              },
+              {
+                question: "Apakah menggunakan AmanahFalah membutuhkan biaya?",
+                answer: "Saat ini AmanahFalah tersedia secara gratis sebagai bagian dari inisiatif sosial untuk meningkatkan transparansi keuangan di sektor panti asuhan.",
+              },
+              {
+                question: "Apakah laporan bisa dicetak?",
+                answer: "Ya, laporan keuangan dapat diunduh dalam format PDF dan dicetak untuk keperluan dokumentasi atau pelaporan kepada pihak terkait.",
+              },
+            ]}
+          />
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#0A3D5C] py-14 px-10">
+      {/* ── Footer ────────────────────────────────────────────────── */}
+      <footer className="bg-[#0A3D5C] dark:bg-[#061f2e] py-14 px-10">
         <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-10 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -234,7 +323,7 @@ export default async function Home() {
             </p>
             <div className="flex gap-3">
               {["YT", "IG", "TW", "FB"].map((s, i) => (
-                <div key={i} className="w-8 h-8 bg-[#037EBD] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#025f8f] transition-colors">
+                <div key={i} className="w-8 h-8 bg-[#037EBD] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#025f8f] hover:scale-110 transition-all">
                   <span className="text-white text-xs font-semibold">{s[0]}</span>
                 </div>
               ))}
@@ -259,7 +348,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <div className="border-t border-[#037EBD] pt-6 text-center">
+        <div className="border-t border-[#037EBD]/40 pt-6 text-center">
           <p className="text-blue-300 text-xs">Hak Cipta © 2024 AmanahFalah. Semua Hak Dilindungi.</p>
         </div>
       </footer>
